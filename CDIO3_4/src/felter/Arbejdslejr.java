@@ -8,6 +8,7 @@ import entity.Spiller;
 import entity.Terning;
 import sprog.Tekst;
 
+// Arbejdslejr feltet arver fra ejerskab
 public class Arbejdslejr extends Ejerskab {
 	
 	private int standardLeje;
@@ -15,12 +16,14 @@ public class Arbejdslejr extends Ejerskab {
 	public Color farve = Color.PINK;
 	public Terning terning= new Terning();
 	
+// Konstruktør
 	public Arbejdslejr(String feltType, int pris) {
 		super(feltType, pris);
 		this.standardLeje = 100;
 		this.pris = pris;
 	}
 	
+// getLeje metode
 	public int getLeje(Mui mui){
 		terning.roll();
 		int leje = standardLeje * terning.getFaceValue() * ejer.getAntalArbejdslejre();
@@ -30,35 +33,43 @@ public class Arbejdslejr extends Ejerskab {
 		
 	}
 	
+// købfelt arver fra ejerskab og køre setAntalArbejdslejr metoden som tæller antalet af arbejdslejre som spilleren ejer
 	public void koebFelt (Spiller spiller) {
 		super.koebFelt(spiller);
 		spiller.setAntalArbejdslejr();
 	}
 
 
-
+// gui
 	@Override
 	public String subtekst() {
 		
 		return "???";
 	}
 
+// gui
 	@Override
 	public String getbeskrivelse() {
 		
 		return Tekst.toString(63);
 	}
 
+// bruges ikke
 	@Override
 	public int getLeje() {
 		return 0;
 	}
 	
+// gui
 	@Override
 	public Color getColor() {
 		return farve;
 	}
 
+// Ser hvorvidt om feltet ejes, hvis ikke ser om spilleren har råd, hvis ja giver muligheden for at købe feltet
+// Hvis feltet ejes ser metoden om det er spilleren selv der ejer feltet eller en anden spiller.
+// hvis det er en anden trækkes lejen fra spillerens konto og samme beløb lægges ind på ejerens konto
+// er ikke lavet efter GRASP på grund af tidspress
 	public void landPaaFelt(Spiller spiller, Mui mui) {
 		mui.midtBeskrivelse(Tekst.toString(38));
 	if(this.ejer == null){
